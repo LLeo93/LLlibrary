@@ -1,0 +1,29 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Assicura che tutte le card abbiano la stessa altezza */
+}
+
+.card-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: bold;
+  min-height: 50px; /* Altezza minima per i titoli */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* Mantiene il titolo su una sola riga */
+}
+
+.card-text {
+  flex-grow: 1; /* Espande la descrizione per riempire lo spazio */
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limita il numero di righe del testo */
+  -webkit-box-orient: vertical;
+}
