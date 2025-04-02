@@ -22,9 +22,23 @@ class BookList extends Component {
     super(props);
     this.state = {
       searchQuery: '',
-      filteredBooks: [...fantasy, ...history, ...horror, ...romance, ...scifi],
+      filteredBooks: this.addUniqueIdToBooks([
+        ...fantasy,
+        ...history,
+        ...horror,
+        ...romance,
+        ...scifi,
+      ]),
     };
   }
+
+  // Funzione per aggiungere un ID unico a ciascun libro
+  addUniqueIdToBooks = (books) => {
+    return books.map((book) => ({
+      ...book,
+      uniqueId: `${book.asin}-${book.category}`, // Combina ASIN con la categoria per creare un ID unico
+    }));
+  };
 
   handleSearchChange = (event) => {
     this.setState({ searchQuery: event.target.value });
@@ -35,7 +49,7 @@ class BookList extends Component {
     const filteredBooks = allBooks.filter((libro) =>
       libro.title.toLowerCase().includes(this.state.searchQuery.toLowerCase())
     );
-    this.setState({ filteredBooks });
+    this.setState({ filteredBooks: this.addUniqueIdToBooks(filteredBooks) });
   };
 
   render() {
@@ -59,8 +73,8 @@ class BookList extends Component {
           </div>
         </div>
         <Row className="g-4">
-          {this.state.filteredBooks.map((libro, i) => (
-            <Col key={libro.asin & i} xs={6} sm={6} md={4} lg={3} xl={2}>
+          {this.state.filteredBooks.map((libro) => (
+            <Col key={libro.uniqueId} xs={6} sm={6} md={4} lg={3} xl={2}>
               <Card className="card">
                 <div
                   style={{
