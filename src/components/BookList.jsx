@@ -36,7 +36,8 @@ class BookList extends Component {
   addUniqueIdToBooks = (books) => {
     return books.map((book) => ({
       ...book,
-      uniqueId: `${book.asin}-${book.category}`, // Combina ASIN con la categoria per creare un ID unico
+      uniqueId: `${book.asin}-${book.category}`,
+      // Combina ASIN con la categoria per creare un ID unico
     }));
   };
 

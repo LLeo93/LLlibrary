@@ -9,6 +9,8 @@ import Cards from './components/BookCards';
 import './components/Cards.css';
 import SingleBook from './components/SingleBook';
 import BookList from './components/BookList';
+import AddComment from './components/AddComment';
+import CommentArea from './components/CommentArea';
 //svuotiamo i css index e app, qua togliamo il collegamento a app.css e colleghiamo il file css di bootstrap
 // va bene anche quello min
 
@@ -21,7 +23,7 @@ function App() {
       <CustomNavbar tema="dark" />
       <main className="bg-dark">
         <AlertDismissible />
-        <div className="container d-flex justify-content-center pt-5 mb-5">
+        <div className="container-fluid row d-flex justify-content-around pt-5 mb-5">
           <SingleBook></SingleBook>
         </div>
         <BookList></BookList>

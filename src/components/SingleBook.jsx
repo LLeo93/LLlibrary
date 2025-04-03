@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Card, OverlayTrigger, Tooltip, ListGroup } from 'react-bootstrap';
 import fantasy from '../Data/fantasy.json'; // Supponiamo che 'book' arrivi come prop
+import 'bootstrap-icons/font/bootstrap-icons.min.css';
+import CommentArea from './CommentArea'; // Importa CommentArea
+import AddComment from './AddComment'; // Corretto l'import di AddComment
 
 class SingleBook extends Component {
   constructor(props) {
@@ -24,16 +27,29 @@ class SingleBook extends Component {
     return fantasy[randomIndex]; // Restituisce il libro alla posizione casuale
   };
 
+  // Funzione per aggiornare i commenti
+  handleNewComment = () => {
+    console.log('Nuovo commento aggiunto!');
+    // Qui potresti voler ricaricare i commenti o eseguire altre azioni
+  };
+
   render() {
     const { book, selected } = this.state;
 
-    // Aggiungi uno stile condizionale per il bordo rosso quando il libro è selezionato
-    const cardStyle = selected
-      ? { border: '2px solid red' } // Bordo rosso quando è selezionato
-      : {};
+    // Stile condizionale per il bordo rosso quando il libro è selezionato
+    const cardStyle = {
+      width: 400,
+      transition: 'transform 0.3s ease-in-out', // Animazione fluida
+      ...(selected && { border: '2px solid red' }), // Bordo rosso se selezionato
+    };
 
     return (
-      <Card className="card" style={cardStyle}>
+      <Card
+        className="card"
+        style={cardStyle}
+        onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.1)')}
+        onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+      >
         <div
           style={{
             overflow: 'hidden',
@@ -49,15 +65,12 @@ class SingleBook extends Component {
               width: '100%',
               height: '300px',
               objectFit: 'cover',
-              transition: 'transform 0.3s ease-in-out',
             }}
-            onMouseEnter={(e) => (e.target.style.transform = 'scale(1.2)')}
-            onMouseLeave={(e) => (e.target.style.transform = 'scale(1)')}
-            onClick={this.handleSelectToggle} // Aggiungi il click sulla copertina per togglare lo stato
+            onClick={this.handleSelectToggle} // Click sulla copertina per selezionare
           />
         </div>
 
-        <Card.Body className="card-body">
+        <Card.Body className="card-body col-12 col-md-6 col-lg-3 m-2 p-2">
           <OverlayTrigger
             placement="top"
             overlay={<Tooltip>{book.title}</Tooltip>}
@@ -73,6 +86,20 @@ class SingleBook extends Component {
         <Card.Body>
           <Card.Link href="#">Dettagli</Card.Link>
         </Card.Body>
+
+        {/* Se il libro è selezionato, mostra i commenti */}
+        {selected && (
+          <>
+            <CommentArea bookId={book.id} />{' '}
+            {/* Aggiungi la sezione dei commenti */}
+            {book.id && (
+              <AddComment
+                bookId={book.id}
+                onNewComment={this.handleNewComment}
+              />
+            )}
+          </>
+        )}
       </Card>
     );
   }
